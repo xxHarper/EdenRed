@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calculadora de Vales | INCONNECT</title>
+    <script
+      type="text/javascript"
+      src="https://ff.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=LfU-F233lyV5-sIBJsvA6P6gTr4u6dC72iLebEYv89sn57RlI6dNaizbnma0qiG16tmu0LyeftEPUEb1oLkd0Ng305N6dkOXHUfeETb6uTR7hDITOlT9zUZyIGZPJojgOjHYqFsbXq7uv83q1Ho-fm75gmJnh0RnOWHni0sn1uEih4u0I-XEOo6IouOirzM0PYBJK-fwuH7Rlwj9ETYCUurmxGx1blnPkgYtYZyCnPY0gxor5qBNRNmwNMF4wEEPslWepLr3vG3-4b4ZeI7tzQ"
+      charset="UTF-8"
+    ></script>
+    <link
+      rel="stylesheet"
+      crossorigin="anonymous"
+      href="https://ff.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jaGF0Z3B0LmNvbS9iYWNrZW5kLWFwaS9lc3R1YXJ5L2NvbnRlbnQ_aWQ9ZmlsZV8wMDAwMDAwMDIzOWM3MWY4YmRlZjM5YzNkNTcxNzc3ZCZ0cz00OTU0MjcmcD1mcyZjaWQ9MSZzaWc9YWI5YjI0NTRiNTdjNjVlNjFjMjdkMTA2ZmU1NGU0YjkxZmM1NThiY2NlMThmNDUzM2QxZjNjY2MwMTI1YjM0NCZ2PTA"
+    />
+    <style>
+      :root {
+        --bg: #03111d;
+        --bg-2: #071a2b;
+        --panel: rgba(8, 23, 38, 0.94);
+        --panel-soft: rgba(11, 30, 49, 0.86);
+        --line: rgba(255, 255, 255, 0.08);
+        --line-strong: rgba(255, 255, 255, 0.16);
+        --text: #f7f9fc;
+        --muted: #a6b3c2;
+        --accent: #d45af7;
+        --accent-2: #8f4cff;
+        --accent-soft: rgba(212, 90, 247, 0.14);
+        --warm: #ff5b4d;
+        --success: #7de1b3;
+        --shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+        --radius: 24px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(
+            circle at 15% 15%,
+            rgba(143, 76, 255, 0.18),
+            transparent 26rem
+          ),
+          radial-gradient(
+            circle at 90% 10%,
+            rgba(212, 90, 247, 0.14),
+            transparent 24rem
+          ),
+          linear-gradient(180deg, #02101b 0%, #041321 34%, #071a2b 100%);
+      }
+
+      .wrap {
+        width: min(1100px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 28px 0 40px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 18px;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(5, 18, 30, 0.72);
+        backdrop-filter: blur(10px);
+        box-shadow: var(--shadow);
+        margin-bottom: 26px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 950;
+        letter-spacing: 0.01em;
+        font-size: 1.5rem;
+      }
+
+      .brand-mark {
+        width: 22px;
+        height: 22px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .brand-mark::before,
+      .brand-mark::after {
+        content: "";
+        position: absolute;
+        border-radius: 4px;
+        transform: rotate(45deg);
+      }
+
+      .brand-mark::before {
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          #f89b29 0%,
+          #ff4d8d 45%,
+          #8f4cff 100%
+        );
+        clip-path: polygon(
+          0 15%,
+          35% 15%,
+          35% 65%,
+          65% 65%,
+          65% 15%,
+          100% 15%,
+          100% 100%,
+          65% 100%,
+          65% 50%,
+          35% 50%,
+          35% 100%,
+          0 100%
+        );
+        transform: none;
+        border-radius: 0;
+      }
+
+      .brand span:last-child {
+        color: #ffffff;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        padding: 9px 14px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #fff;
+        font-size: 0.84rem;
+        font-weight: 900;
+        letter-spacing: 0.03em;
+        white-space: nowrap;
+      }
+
+      .hero {
+        padding: 46px 18px 28px;
+        text-align: center;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .kicker::before {
+        content: "";
+        width: 42px;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--accent), var(--warm));
+      }
+
+      h1 {
+        margin: 18px 0 12px;
+        font-size: clamp(2.5rem, 6vw, 4.4rem);
+        line-height: 0.98;
+        letter-spacing: -0.05em;
+        color: #fffaf6;
+      }
+
+      .subtitle {
+        max-width: 700px;
+        margin: 0 auto;
+        color: var(--muted);
+        font-size: 1.03rem;
+        line-height: 1.6;
+      }
+
+      .calculator {
+        display: grid;
+        grid-template-columns: 1fr 1.06fr;
+        gap: 24px;
+        align-items: stretch;
+      }
+
+      .card {
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        background: linear-gradient(
+          180deg,
+          rgba(9, 24, 39, 0.96),
+          rgba(7, 20, 33, 0.94)
+        );
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .form-card,
+      .result-card {
+        min-height: 100%;
+      }
+
+      .form-card {
+        padding: 24px;
+      }
+
+      .section-title {
+        margin: 0 0 8px;
+        font-size: 1.2rem;
+        font-weight: 900;
+        color: #fff;
+      }
+
+      .section-copy {
+        margin: 0 0 22px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.55;
+      }
+
+      .plan-label,
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        color: #eef4fb;
+        font-weight: 850;
+      }
+
+      .plans {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      .plan {
+        border: 1px solid var(--line-strong);
+        background: rgba(255, 255, 255, 0.02);
+        color: var(--text);
+        border-radius: 18px;
+        padding: 14px 12px;
+        cursor: pointer;
+        font-weight: 900;
+        transition: 0.2s ease;
+        text-align: left;
+      }
+
+      .plan small {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        font-weight: 750;
+      }
+
+      .plan:hover {
+        transform: translateY(-1px);
+        border-color: rgba(212, 90, 247, 0.48);
+      }
+
+      .plan[aria-selected="true"] {
+        border-color: rgba(212, 90, 247, 0.75);
+        background: linear-gradient(
+          180deg,
+          rgba(212, 90, 247, 0.17),
+          rgba(143, 76, 255, 0.1)
+        );
+        box-shadow:
+          inset 0 0 0 1px rgba(212, 90, 247, 0.15),
+          0 0 0 4px rgba(212, 90, 247, 0.06);
+      }
+
+      .field {
+        margin-bottom: 16px;
+      }
+
+      input {
+        width: 100%;
+        height: 54px;
+        padding: 0 16px;
+        border: 1px solid var(--line-strong);
+        border-radius: 16px;
+        font-size: 1.02rem;
+        font-weight: 800;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.04);
+        outline: none;
+        transition:
+          border 0.18s ease,
+          box-shadow 0.18s ease,
+          background 0.18s ease;
+      }
+
+      input::placeholder {
+        color: #8192a4;
+      }
+
+      input:focus {
+        border-color: rgba(212, 90, 247, 0.78);
+        box-shadow: 0 0 0 4px rgba(212, 90, 247, 0.12);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .two-cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .advanced {
+        margin-top: 8px;
+        border-top: 1px solid var(--line);
+        padding-top: 14px;
+      }
+
+      summary {
+        cursor: pointer;
+        user-select: none;
+        color: #f4ecff;
+        font-weight: 900;
+        list-style: none;
+      }
+
+      summary::-webkit-details-marker {
+        display: none;
+      }
+
+      summary::after {
+        content: "+";
+        float: right;
+        color: var(--accent);
+        font-size: 1.1rem;
+        line-height: 1;
+      }
+
+      details[open] summary::after {
+        content: "–";
+      }
+
+      .advanced-grid {
+        display: grid;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      button.action {
+        flex: 1;
+        border: 0;
+        border-radius: 16px;
+        padding: 14px;
+        font-weight: 950;
+        cursor: pointer;
+        transition:
+          transform 0.15s ease,
+          opacity 0.15s ease;
+      }
+
+      button.action:hover {
+        transform: translateY(-1px);
+      }
+
+      .primary {
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #fff;
+        box-shadow: 0 14px 28px rgba(143, 76, 255, 0.25);
+      }
+
+      .secondary {
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+        border: 1px solid var(--line);
+      }
+
+      .result-top {
+        padding: 26px;
+        background:
+          radial-gradient(
+            circle at top right,
+            rgba(212, 90, 247, 0.22),
+            transparent 20rem
+          ),
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.02),
+            rgba(255, 255, 255, 0)
+          );
+        border-bottom: 1px solid var(--line);
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .total {
+        margin: 0;
+        font-size: clamp(2.6rem, 6vw, 4.6rem);
+        line-height: 0.95;
+        letter-spacing: -0.06em;
+        color: #fff;
+      }
+
+      .result-sub {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 0.96rem;
+        line-height: 1.5;
+      }
+
+      .mini-summary {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .mini {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 18px;
+        padding: 15px;
+      }
+
+      .mini span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 800;
+        margin-bottom: 7px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .mini strong {
+        display: block;
+        color: #fff;
+        font-size: 1.14rem;
+      }
+
+      .details {
+        padding: 22px 26px 26px;
+      }
+
+      .details-title {
+        margin: 0 0 14px;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 950;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+        color: var(--muted);
+        font-weight: 750;
+      }
+
+      .row strong {
+        color: #fff;
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      .row.emphasis {
+        color: #fff;
+        font-weight: 950;
+      }
+
+      .row.emphasis strong {
+        color: var(--success);
+      }
+
+      .note {
+        margin: 16px 0 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+        line-height: 1.55;
+      }
+
+      @media (max-width: 860px) {
+        .calculator {
+          grid-template-columns: 1fr;
+        }
+        .hero {
+          text-align: left;
+          padding-inline: 2px;
+        }
+        .subtitle {
+          margin-left: 0;
+        }
+        .topbar {
+          padding: 14px 16px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .wrap {
+          width: min(100% - 20px, 1100px);
+        }
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .plans,
+        .two-cols,
+        .mini-summary {
+          grid-template-columns: 1fr;
+        }
+        .form-card,
+        .result-top,
+        .details {
+          padding: 20px;
+        }
+        .brand {
+          font-size: 1.3rem;
+        }
+        h1 {
+          font-size: clamp(2.1rem, 12vw, 3rem);
+        }
+        .actions {
+          flex-direction: column;
+        }
+      }
+
+      @media print {
+        body {
+          background: #fff;
+          color: #000;
+        }
+        .wrap {
+          width: 100%;
+          padding: 0;
+        }
+        .topbar,
+        .hero {
+          color: #000;
+        }
+        .card {
+          box-shadow: none;
+          background: #fff;
+          border-color: #ddd;
+        }
+        .result-top,
+        .mini,
+        input,
+        .plan {
+          background: #fff;
+          color: #000;
+        }
+        .actions {
+          display: none;
+        }
+        .calculator {
+          grid-template-columns: 1fr 1fr;
+        }
+        .total,
+        .section-title,
+        .details-title,
+        .row strong,
+        .brand,
+        .brand span:last-child,
+        .plan-label,
+        label {
+          color: #000;
+        }
+        .subtitle,
+        .section-copy,
+        .row,
+        .note,
+        .result-sub,
+        .eyebrow,
+        .mini span {
+          color: #444;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <div class="topbar">
+        <div class="brand" aria-label="INCONNECT">
+          <img src="./icons/inco.png" alt="INCONNECT" class="brand-logo" />
+        </div>
+        <div class="badge">CALCULADORA DE VALES</div>
+      </div>
+
+      <!-- <section class="hero">
+      <div class="kicker">EdenRed</div>
+      <h1>Una calculadora más oscura,<br>limpia y moderna</h1>
+      <p class="subtitle">Mantiene el formato simplificado, pero ahora con una apariencia mucho más cercana al estilo visual de inconnect.mx: fondo oscuro, alto contraste, acentos morados y una sensación más premium.</p>
+    </section> -->
+
+      <section class="calculator">
+        <section class="card form-card" aria-label="Datos de cotización">
+          <h2 class="section-title">Datos de cotización</h2>
+          <p class="section-copy">
+            Elige el paquete y captura únicamente los datos necesarios para
+            obtener el total.
+          </p>
+
+          <span class="plan-label">Selecciona paquete</span>
+          <div class="plans" role="tablist" aria-label="Paquetes">
+            <button
+              class="plan"
+              data-plan="esencial"
+              aria-selected="true"
+              type="button"
+            >
+              Esencial<small>2.5%</small>
+            </button>
+            <button
+              class="plan"
+              data-plan="optima"
+              aria-selected="false"
+              type="button"
+            >
+              Óptima<small>3.5%</small>
+            </button>
+          </div>
+
+          <div class="field">
+            <label for="dispersion">Monto a dispersar</label>
+            <input
+              id="dispersion"
+              inputmode="decimal"
+              type="number"
+              min="0"
+              step="0.01"
+              value="10000"
+            />
+          </div>
+
+          <div class="two-cols">
+            <div class="field">
+              <label for="cards">Tarjetas</label>
+              <input
+                id="cards"
+                inputmode="numeric"
+                type="number"
+                min="0"
+                step="1"
+                value="50"
+              />
+            </div>
+
+            <div class="field">
+              <label for="cardCost">Costo por tarjeta</label>
+              <input
+                id="cardCost"
+                inputmode="decimal"
+                type="number"
+                min="0"
+                step="0.01"
+                value="65"
+              />
+            </div>
+          </div>
+
+          <details class="advanced">
+            <summary>Opciones adicionales</summary>
+            <div class="advanced-grid">
+              <div class="field">
+                <label for="activeAccount">Cuenta activa</label>
+                <input
+                  id="activeAccount"
+                  inputmode="decimal"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value="0"
+                />
+              </div>
+
+              <div class="field">
+                <label for="shipping">Envío de tarjetas</label>
+                <input
+                  id="shipping"
+                  inputmode="decimal"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value="0"
+                />
+              </div>
+            </div>
+          </details>
+
+          <div class="actions">
+            <button class="action secondary" id="resetBtn" type="button">
+              Restablecer
+            </button>
+            <button class="action primary" id="printBtn" type="button">
+              Imprimir / PDF
+            </button>
+          </div>
+        </section>
+
+        <section class="card result-card" aria-label="Resultados">
+          <div class="result-top">
+            <p class="eyebrow">Total a pagar</p>
+            <h2 class="total" id="grandTop">$0.00</h2>
+            <p class="result-sub">
+              Resumen inmediato de la cotización con comisión, IVA, tarjetas y
+              envío.
+            </p>
+
+            <div class="mini-summary">
+              <div class="mini">
+                <span>Paquete</span>
+                <strong id="planName">Esencial</strong>
+              </div>
+              <div class="mini">
+                <span>Deducible ISR</span>
+                <strong id="deductibleTop">$0.00</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="details">
+            <p class="details-title">Resumen</p>
+            <div id="detailRows"></div>
+            <p class="note">
+              Incluye comisión del paquete, IVA 16%, tarjetas y envío. Deducible
+              calculado al 53% del monto dispersado.
+            </p>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      const plans = {
+        esencial: {
+          label: "Esencial",
+          rate: 0.025,
+          defaults: {
+            dispersion: 10000,
+            cards: 50,
+            cardCost: 65,
+            activeAccount: 0,
+            shipping: 0,
+          },
+        },
+        optima: {
+          label: "Óptima",
+          rate: 0.035,
+          defaults: {
+            dispersion: 50000,
+            cards: 50,
+            cardCost: 65,
+            activeAccount: 0,
+            shipping: 0,
+          },
+        },
+      };
+
+      const money = new Intl.NumberFormat("es-MX", {
+        style: "currency",
+        currency: "MXN",
+        minimumFractionDigits: 2,
+      });
+      let currentPlan = "esencial";
+      const $ = (id) => document.getElementById(id);
+      const inputs = [
+        "dispersion",
+        "cards",
+        "cardCost",
+        "activeAccount",
+        "shipping",
+      ];
+
+      function value(id) {
+        const parsed = Number($(id).value);
+        return Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
+      }
+
+      function calculate() {
+        const plan = plans[currentPlan];
+        const dispersion = value("dispersion");
+        const cards = Math.floor(value("cards"));
+        const cardCost = value("cardCost");
+        const activeAccount = value("activeAccount");
+        const shipping = value("shipping");
+
+        const commission = dispersion * plan.rate;
+        const dispersionIva = 0.16 * (commission + activeAccount);
+        const dispersionTotal =
+          dispersion + commission + activeAccount + dispersionIva;
+        const deductible = dispersion * 0.53;
+        const cardsCost = cardCost * cards;
+        const cardsIva = 0.16 * (cardsCost + shipping);
+        const cardsTotal = cardsCost + shipping + cardsIva;
+        const grandTotal = dispersionTotal + cardsTotal;
+
+        $("planName").textContent =
+          `${plan.label} · ${(plan.rate * 100).toFixed(1)}%`;
+        $("deductibleTop").textContent = money.format(deductible);
+        $("grandTop").textContent = money.format(grandTotal);
+
+        const rows = [
+          ["Dispersión", money.format(dispersion)],
+          ["Comisión", money.format(commission)],
+          ["IVA", money.format(dispersionIva + cardsIva)],
+          ["Tarjetas y envío", money.format(cardsTotal)],
+          ["Total", money.format(grandTotal), "emphasis"],
+        ];
+
+        $("detailRows").innerHTML = rows
+          .map(
+            ([label, amount, cls = ""]) => `
+        <div class="row ${cls}">
+          <span>${label}</span>
+          <strong>${amount}</strong>
+        </div>
+      `,
+          )
+          .join("");
+      }
+
+      function setPlan(planKey, applyDefaults = true) {
+        currentPlan = planKey;
+        document.querySelectorAll(".plan").forEach((btn) => {
+          btn.setAttribute(
+            "aria-selected",
+            btn.dataset.plan === planKey ? "true" : "false",
+          );
+        });
+        if (applyDefaults) {
+          const defaults = plans[planKey].defaults;
+          Object.entries(defaults).forEach(
+            ([key, val]) => ($(key).value = val),
+          );
+        }
+        calculate();
+      }
+
+      document.querySelectorAll(".plan").forEach((btn) => {
+        btn.addEventListener("click", () => setPlan(btn.dataset.plan, true));
+      });
+
+      inputs.forEach((id) => $(id).addEventListener("input", calculate));
+      $("resetBtn").addEventListener("click", () => setPlan(currentPlan, true));
+      $("printBtn").addEventListener("click", () => window.print());
+
+      calculate();
+    </script>
+  </body>
+</html>
